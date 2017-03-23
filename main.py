@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import jinja2
 import webapp2
+
+from models import Sporocilo
 
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
@@ -31,6 +34,33 @@ class MainHandler(BaseHandler):
     def get(self):
         return self.render_template("hello.html")
 
+class ShraniHandler(BaseHandler):
+    def post(self):
+        sporocilo = self.request.get("sporocilo")
+        ime = self.request.get("ime")
+        # Shrani sporocilo in ime v bazo.
+        spr = Sporocilo(vnos=sporocilo, ime=ime)
+        spr.put()
+
+        return self.write("Hvala za vaše sporočilo.")
+
+class VsaSporocilaHandler(BaseHandler):
+    def get(self):
+        sporocila = Sporocilo.query().fetch()
+        spremenljivke = {
+            "sporocila": sporocila
+        }
+        return self.render_template("seznam.html", spremenljivke)
+
+class PosameznoHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Sporocilo.get_by_id(int(sporocilo_id))
+        return self.write(sporocilo.ime + " " + sporocilo.vnos)
+
+
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
+    webapp2.Route('/shrani', ShraniHandler),
+    webapp2.Route('/vsa-sporocila', VsaSporocilaHandler),
+    webapp2.Route('/posamezno-sporocilo/<sporocilo_id:\d+>', PosameznoHandler),
 ], debug=True)

@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <h1>Hello, SmartNinja!</h1>
+    <h1>Sporočila!</h1>
+    <form method="post" action="/shrani">
+        <p>Ime: <input name="ime" placeholder="Vaše ime"></p>
+        <p>Sporočilo: <input name="sporocilo" placeholder="Vnesi sporočilo"></p>
+        <button type="submit">Pošlji sporočilo</button>
+    </form>
+    <p>
+        <a href="/vsa-sporocila">Vsa sporočila</a>
+    </p>
 </body>
 </html>

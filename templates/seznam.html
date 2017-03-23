@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>SmartNinja basic Jinja template</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <h1>Seznam vseh sporočil</h1>
+
+    {% for sporocilo in sporocila %}
+        <p>
+            <a href="/posamezno-sporocilo/{{ sporocilo.key.id() }}">#</a>
+            <strong>
+                <em>({{ sporocilo.nastanek }})</em> {{ sporocilo.ime }}:
+            </strong> {{ sporocilo.vnos }}
+        </p>
+    {% endfor %}
+
+</body>
+</html>
